@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>Stories</title>
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+      }
+      div {
+        border: 1px solid blue;
+        width: 200px;
+        height: 150px;
+        /* border: 1px solid #222 */
+        font-size: 100%;
+        font-weight: bold;
+        text-align: center;
+      }
+      div span {
+        /* From this article on how to vertically align child elements:
+           http://phrogz.net/CSS/vertical-align/index.html
+           Super-short summary: either set the line-height of the child equal
+           to the height of the container, or set positioning on the container
+           and absolutely position the child at top:50% with margin-top:-YYYpx,
+           YYY being half the known height of the child.
+           http://stackoverflow.com/questions/4357315/how-to-vertically-center-a-span-inside-a-div 
+
+           I've elected to use line-height since spans are inline elements.
+        */
+        line-height: 150px;
+      }
+      .wd-1 {
+        background: red;
+      }
+      .wd-2 {
+        background: yellow;
+      }
+      .wd-3 {
+        background: lightblue;
+      }
+      .wd-4 {
+        background: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+        window.onload = () => {
+          addDivs(20);
+          document.body.addEventListener('click', () => {
+              window.location = '#bar';
+          });
+            console.log('y: ' + window.scrollY + ' height: ' + document.body.clientHeight);
+        };
+
+        window.onpopstate = () => {
+            if (window.location.hash == '#bar') {
+              // Add elements to the dom
+              addDivs(20);
+            } else {
+              // Remove elements from the dom
+              removeDivs(20);
+            }
+            console.log('y: ' + window.scrollY + ' height: ' + document.body.clientHeight);
+        };
+
+        const addDivs = (n) => {
+          let m = document.body.getElementsByTagName('div').length;
+          for (let i = 0; i < n; ++i) {
+              let text = '' + ++m;
+              let div = document.createElement('div');
+              let span = document.createElement('span');
+              span.textContent ? span.textContent = text : span.innerText = text;
+              div.className = 'wd-' +  ((i % 4) + 1);
+              div.appendChild(span);
+              document.body.appendChild(div);
+          }
+        };
+
+        const removeDivs = (n) => {
+          for (let i = 0; i < n; ++i) {
+              document.body.removeChild(document.body.lastChild);
+          }
+        };
+
+    </script>
+  </body>
+</html>
+
